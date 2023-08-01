@@ -1,6 +1,6 @@
 ## pic2text
 
-Convert pictures to text 
+Convert pictures to ascii art 
 
 ![cat](baimou.jpg)
 
