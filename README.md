@@ -79,7 +79,7 @@ aaa+++_+++_____________________+aaaaaaaa
 
 Invert the image - map to ascii range (default)
 ```
-cargo run -- -w 50 baimou.jpg
+cargo run -- -i -w 50 baimou.jpg
 
 
 zxxzxxxxxxxxxxxxxxxxxxxxxxzzuuuzzzxxxxxxxxvvvxx}xu
