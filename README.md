@@ -1,6 +1,8 @@
 ## pic2text
 
-Convert pictures to ascii art 
+Convert pictures to ascii art.
+
+The symbols to use can be specified on the command line. Symbols are ranked by estimating the 'brightness' of each symbol - this is done by looking up the symbol in a small bitmap font and counting how many bits are set (see ![src/font8x8.rs](src/font8x8.rs)). 
 
 ![cat](baimou.jpg)
 
