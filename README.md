@@ -2,7 +2,7 @@
 
 Convert pictures to ascii art.
 
-The symbols to use can be specified on the command line. Symbols are ranked by estimating the 'brightness' of each symbol - this is done by looking up the symbol in a small bitmap font and counting how many bits are set (see [src/font8x8.rs](src/font8x8.rs)). 
+The symbols to use can be specified on the command line. Symbols are ranked by estimating the 'brightness' of each symbol - this is done by looking up the symbol in a small bitmap font and counting bits (see [src/font8x8.rs](src/font8x8.rs)). 
 
 ![cat](baimou.jpg)
 
@@ -21,7 +21,6 @@ Options:
   -u, --u <U>    each char in string [default: ]
   -h, --help     Print help
   -V, --version  Print version
-
 ```
 
 Scale image to 80 pixels wide, set character aspect ratio to 2 and map each pixel to one of the 7 symbols in " _a2WM+" 
