@@ -9,6 +9,9 @@ struct Args {
     #[arg(short, long, default_value_t = false)]
     ///invert
     i: bool,
+    #[arg(short, long, default_value_t = 2.0)]
+    ///aspect ratio (character height to width)
+    r: f64,
     #[arg(short, long, default_value_t = 80)]
     ///max picture width in characters  
     w: u32,
@@ -18,8 +21,7 @@ struct Args {
     ///image
     image: String,
 }
-// TODO - hardcode example string - ascii, latin, all filtered for bits set
-//
+
 fn main() {
     let args = Args::parse();
 
@@ -58,8 +60,7 @@ fn main() {
     } else {
         panic!("no usable symbols")
     };
-    println!("#Symbols: {}", l.len());
-    println!("{l:?}");
+    println!("#Symbols: {}; {l:?}", l.len());
 
     let mut i = 0;
     let mut j = 1;
@@ -78,18 +79,23 @@ fn main() {
     let mut img = image::open(args.image).unwrap();
     let (width, height) = img.dimensions();
 
-    let aspect_ratio = (4,3);
-
-    if args.w > 0 && args.w < width {
+    if args.w > 0 && args.r >= 0.1 {
+        // rescale image - take into account that characters are not square
         //let h = args.w * height / width;
-        let h = args.w * height * aspect_ratio.1 / (width * aspect_ratio.0);
-        println!("rescale {width},{height} -> {}, {h}", args.w);
-        img = image::DynamicImage::resize_exact(&img, args.w, h, image::imageops::FilterType::Lanczos3);
-        imageops::invert(&mut img);
+        let h = (args.w * height) as f64 / (args.r * width as f64);
+        let h: u32 = h.round() as u32;
+        if h >= 1 {
+            img = image::DynamicImage::resize_exact(
+                &img,
+                args.w,
+                h,
+                image::imageops::FilterType::Lanczos3,
+            );
+            imageops::invert(&mut img);
+        }
     };
 
     let (width, height) = img.dimensions();
-    println!("dim: {width},{height}");
     for y in 0..height {
         for x in 0..width {
             let pixel = img.get_pixel(x, y);
