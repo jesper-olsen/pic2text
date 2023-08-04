@@ -15,10 +15,8 @@ struct Args {
     #[arg(short, long, default_value_t = String::from(""))]
     ///each char in string
     u: String,
-    ///image 
+    ///image
     image: String,
-
-   
 }
 // TODO - hardcode example string - ascii, latin, all filtered for bits set
 //
@@ -80,22 +78,25 @@ fn main() {
     let mut img = image::open(args.image).unwrap();
     let (width, height) = img.dimensions();
 
+    let aspect_ratio = (4,3);
+
     if args.w > 0 && args.w < width {
-        let h = args.w * height / width;
+        //let h = args.w * height / width;
+        let h = args.w * height * aspect_ratio.1 / (width * aspect_ratio.0);
         println!("rescale {width},{height} -> {}, {h}", args.w);
-        img = image::DynamicImage::resize(&img, args.w, h, image::imageops::FilterType::Lanczos3);
+        img = image::DynamicImage::resize_exact(&img, args.w, h, image::imageops::FilterType::Lanczos3);
         imageops::invert(&mut img);
     };
 
     let (width, height) = img.dimensions();
+    println!("dim: {width},{height}");
     for y in 0..height {
         for x in 0..width {
             let pixel = img.get_pixel(x, y);
             let a = (pixel[0] as usize + pixel[1] as usize + pixel[2] as usize) / 3;
-            let a = if args.i { 256 - a } else { a };
+            let a = if args.i { 255 - a } else { a };
             print!("{}", pixel2char[a]);
         }
         println!();
     }
-     
 }
