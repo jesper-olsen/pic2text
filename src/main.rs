@@ -25,33 +25,24 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    let mut heap = BinaryHeap::new();
-
-    if !args.u.is_empty() {
-        for c in args.u.chars() {
-            let u = c as u16;
-            let b = font8x8::unicode2bitmap(u);
-            heap.push((b.count_ones() as u8, c, u));
-        }
+    // Sort and dedup symbols
+    let mut symbols: Vec<(u8, char)> = if args.u.is_empty() {
+        font8x8::UNICODE_ASCII
+            .filter_map(|u| char::from_u32(u.into()).map(|c| (u, c)))
+            .map(|(u, c)| (font8x8::unicode2bitmap(u).count_ones() as u8, c))
+            .filter(|&(density, c)| density > 0 || c == ' ')
+            .map(|(density, u)| (density, char::from_u32(u.into()).unwrap()))
+            .collect()
     } else {
-        for u in font8x8::UNICODE_ASCII {
-            if let Some(c) = char::from_u32(u.into()) {
-                let b = font8x8::unicode2bitmap(u);
-                heap.push((b.count_ones() as u8, c, u));
-            }
-        }
-    }
+        args.u
+            .chars()
+            .map(|c| (font8x8::unicode2bitmap(c as u16).count_ones() as u8, c))
+            .filter(|&(density, c)| density > 0 || c == ' ')
+            .collect()
+    };
+    symbols.sort_unstable_by_key(|&(brightness, _)| brightness);
+    symbols.dedup_by_key(|(brightness, _)| *brightness);
 
-    // dedup symbols (by intensity)
-    let mut symbols: Vec<(u8, char)> = Vec::new();
-    let mut previous: i32 = -1;
-    while let Some((x, c, u)) = heap.pop() {
-        if x as i32 != previous && (x != 0 || u == 0x20) { // space is the only allowed blank character
-            previous = x as i32;
-            symbols.push((x, c));
-        }
-    }
-    symbols.sort();
     let Some((bmax, _)) = symbols.last() else {
         panic!("no usable symbols")
     };
