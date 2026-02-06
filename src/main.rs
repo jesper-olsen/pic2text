@@ -1,4 +1,4 @@
-use image::{imageops, GenericImageView};
+use image::GenericImageView;
 use std::collections::BinaryHeap;
 pub mod font8x8;
 use clap::Parser;
@@ -31,44 +31,39 @@ fn main() {
         for c in args.u.chars() {
             let u = c as u16;
             let b = font8x8::unicode2bitmap(u);
-
             heap.push((b.count_ones() as u8, c, u));
         }
     } else {
         for u in font8x8::UNICODE_ASCII {
-            //  let u = c as u16;
             if let Some(c) = char::from_u32(u.into()) {
-                //let c = char::frm_u32(u.into()).unwrap();
                 let b = font8x8::unicode2bitmap(u);
                 heap.push((b.count_ones() as u8, c, u));
             }
         }
     }
-    let mut l: Vec<(u8, char)> = Vec::new();
-    let mut last: i32 = -1;
-    while !heap.is_empty() {
-        if let Some((x, c, u)) = heap.pop() {
-            if x as i32 != last && (x != 0 || u == 0x20) {
-                last = x as i32;
-                l.push((x, c));
-            }
+
+    // dedup symbols (by intensity)
+    let mut symbols: Vec<(u8, char)> = Vec::new();
+    let mut previous: i32 = -1;
+    while let Some((x, c, u)) = heap.pop() {
+        if x as i32 != previous && (x != 0 || u == 0x20) { // space is the only allowed blank character
+            previous = x as i32;
+            symbols.push((x, c));
         }
     }
-    l.sort();
-    let bmax = if let Some((x, _)) = l.last() {
-        *x as f64
-    } else {
+    symbols.sort();
+    let Some((bmax, _)) = symbols.last() else {
         panic!("no usable symbols")
     };
-    println!("#Symbols: {}; {l:?}", l.len());
+    println!("#Symbols: {}; {symbols:?}", symbols.len());
 
     let mut i = 0;
     let mut j = 1;
     let mut pixel2char: Vec<char> = Vec::with_capacity(256);
     let mut last = ' ';
     while i < 256 {
-        let (q, c) = l[j];
-        if i as f64 / 256f64 >= q as f64 / bmax {
+        let (q, c) = symbols[j];
+        if i as f64 / 256f64 >= q as f64 / *bmax as f64 {
             last = c;
             j += 1;
         }
@@ -76,7 +71,7 @@ fn main() {
         i += 1;
     }
 
-    let mut img = image::open(args.image).unwrap();
+    let mut img = image::open(args.image).expect("Failed to open the image file");
     let (width, height) = img.dimensions();
 
     if args.w > 0 && args.r >= 0.1 {
@@ -91,7 +86,6 @@ fn main() {
                 h,
                 image::imageops::FilterType::Lanczos3,
             );
-            imageops::invert(&mut img);
         }
     };
 
