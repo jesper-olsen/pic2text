@@ -25,92 +25,92 @@ Options:
 
 Scale image to 80 pixels wide, set character aspect ratio to 2, map each pixel to one of the 7 symbols in " _a2WM+", and invert: 
 ```
-cargo run -- -u " _a2WM+" -w 80 -r 2 -i baimou.jpg
+cargo run -- --symbols " _a2WM+" --width 80 --aratio 2 --invert baimou.jpg
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++a2222a+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++a222222+++++++++++++++++++++++++++++++++++++++a22a++++++a++++++
-+++++++++++++++++a2222222a++++++++++++++++++++++++++++++++++a22WWWWa+++++++++++_
++++++++++++++++++a22a2222a++++++++++++++++++++++++++++++++++a22WWWWa+++++++++++_
 ++++++++++++++++222aa2222W2+++++++++++++++++++++++++++++++a2W22222W2++++++++++_+
 ++++++++++++++++22a++aa222W2a+++++++++++++++++++++++++++a2WW222222W2++++++++++_+
 _+++++++++++++++22a+++++a222W2++++++++++++++++++++++++a2WW22222222W2+aa++++++__+
- _++++++++++++++22aa+____+a22W2a+++++++++++++++++++++2WW222222aaa222+aa++++++__a
-+ _+++++++++++++22aaa+___++222WW2++++++++++++++++++a2W2222aaa+aaa22a+aa++++++__a
-a+ _+++++++++++++22a+++++++a22WWW2+++________++_+a2WWW2222aa++a2222aa+a+++++_ _a
-________________+2222a+++aaa22WWWW2++_+___+_+++a2WWWW2222aaaaaaa22aaa++++++__ +a
-_________________222222+++++++++a______+_++___+2W2222222222aaa2222aaaa++++__  +a
-_________________2222aa+__    _ _____+++a+a++___+++++++222222222W2+a+++++__   +2
-_________________2W2222__     _____+++aa2++aaa+__+_____++a222222Wa++++++____  +2
-________________ +WW22+___     ___++a+aaaa+a+a+_______+_+a22222W2+_+++++___   a2
-+________________ 2WWa___  __+++++++aaa2a+aa+++++__+++++++2WW2WWa__________   a2
-+++_____________  a22___  __+a++a2a+a2222a2aaaaaaa+++++++aa2WWWa____________  a2
-++______________  ++___ __+aa++a22aa2222222aa22aaaaa+++++aaa2W2+________  _   +2
-++_____________   _  ___+aa+_+a+a22222222222222a++aaaa++++a+a2a________       +2
-++___________      _ _+a22+ +W22_+22222222222a+a2a__aaa++++++++______ _       _2
-++____________     ___+2222__aaa _22222222222+_22Wa aa22aa+++_______   _       2
-++___________      ____a2aa2a++__a22222222222a__aa_+aa222a++_______            +
-+++_________       ____+a2aaaaa22222222222WW222a++aaaa22aa+_______   _         _
-+++__________      _____+a22aaa22W222W22WW2WW2aaaa++222a+++_______             _
-+++_________      _______++22222222++___+2WW222222222aa+++a+______              
-+++________    ________  __+a2222a_   _  +2222222222a++__+aaa+____              
-++++_______   __________   _+aa2+  ______+__222222++_____+222a_____             
-+++++______  ___________    _+++   ______   _++a+_   ____+2222+____             
-+++++___________________     _+_     __      _++   ______+aa222+__              
-++++++___________________      _     _   _  ___    _ ____aaaaa2a_               
-a+++++_________+_________                _         ______aa2222a_               
-aa++++++_____+++_________                         _  ___+aaaaa22_               
-aa+a+____++__+++________                         _______aaaaaaa2+               
-aa+++____+++++++_______       __                  _____+aaaa2aaa+               
-aa++++____++++++______  _   _______             ______+aaaaaaaa2+               
-aaaa++++___++++__+_____ _  ____________       ______+++aaaaaaa2a_ _             
-aaaaa++++___+++___________________________________++aaaaaaaaaa2a_               
+ _++++++++++++++22aa+_ __+a22W2a+++++++++++++++++++++2WW222222aaa222+aa++++++__a
++ _+++++++++++++22aaa+___++222WW2++++++++++++++++++a2W2222aaa+aaa22a+aa+++++___a
+a+ _++++++++++++a22a+++++++a22WWW2+++___________+a2WWW2222aa++a2222a++a+++++_ _a
+________________+2222a+++aaa22WWWW2++_____+_+++a2WWWW2222aaaaaaa22aa+++++++__ +a
+_______________ _222222+++++++++a___ __+__+___+2W2222222222aaa2222aaaa++++__  +a
+_________________2222aa+_       ______++a+a++___+++++++222222222W2+a+++++__   +2
+_________________2W2222__      ____+++aa2++aa+_________++a222222Wa++++++____  +2
+________________ +WW22+__      ___+++++aaa+a+a+_______+_+a22222W2+_++++____   a2
++__________ __    aWWa_     __+_++++aaa2a+aa++++____++++++2WW2WWa_________    a2
+++____________    +22___  __+a++a2a+a222aa2aaaaaaa+++++++aa2WWWa___________   a2
+++___________     _+_ _ __+aa++a22aa2222222aa22a+aaa+++++aaa2W2+_______   _   +2
+++____________    _   __+aa+_+a+a22222222222222+++aa+a++++a+a2a________       +2
+++__________         _+a22+ +W22_+22222222222a+a2a__aaa++++++++____   _       _2
+++_________        ___+a2a2__aaa _22222222222+_22Ma aa22a++++_____             2
+++_________         ___a2aa2a++__+22222222222a__aa_+aa222a++______             +
+++________          ___+a2aaaaaa2222222222WW222a++aa+a22aa+______              _
+++________         _____+a22aaa22W222W22MW2WW2aa+a++22aa++____ _               _
+++________        _______++22222222++_ _+2WW222222222aa+++a+____
+++________     ________  __+a2222a_   _  +2222222222a++__+aaa+___
++++________   _________     +aa2+  _________222222+______+222a_  __
+++++_______  __________     _+++   ______    ++a+_   ____+2222+_ _
++++++_______ __________      ___     __      _++    _____+aa222+_
+++++++___________________            _      ___    _    _aaaaa2a_
+++++++_________+________                           ___  _aa22a2a_
+a+++++++_____+++_______                               __+aaaaa22_
+aa+a+____++__+++_______                             ____aaaaaaa2+
+aa+++____+++++++______                            _____+aaaaaaaa+
+aa+++_____++++++_____          _                 ___ _+aaaaaaaaa_
+aaaa+++____++++______        __ ______         _____+++aaaaaaaaa_
+aaaaa++++___+++________ _________________   _______+aaaaaaaaaaaa_
 ```
 
 Map to ascii range (default). Note that some symbols have the same 'brightness' - only one representative symbol per brightness is used. 
 ```
 cargo run -- -w 80 baimou.jpg
 
-77xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx7777fff7777xxxxsxxxxxxxsssssstsxxttx7f
-77xxxxxxxxxxxxxxxsxxssxxxxxxxxxxxxxxxxxxxxx777fff7777xxxsssxxxxxxsssssssxxstsx7f
-77xxxxxxxxxxxxxxxxsss77xxxxxxxxxxxxxxxxxxxxx777f7777xxxxsssxxxxxsssssssxxs!tsxfC
-7777xxxxxxxxxxsxx/,::;!fxsxxxxxxxxxxxxxxxxxxx77777xxxxxsssxxsx7777xssssxxttss7fC
-f777xxxxxxxxxxssxi:;:,.;x7xssssxxxxxxxxxxxxxx7777xxxxxssssssx7t/;:/sssxxt!tsx7fC
-ff77xxxxxxxxxxxxsi::;;: .i7sxsxsxxxxxxxxxxxxxx777xxxxxssssxxi,     /xsxs!ttsx7CC
-fff777xxxxxxxsxx,.;+/;:,. ;x7ssssssxxxxxxxxxxxxxxxssxsssxx+,  .,,, ,7xs!ttttxf3C
-f7f77xxxxxxxxxxs.,isti=;,. .!xsssssxxxxxxxxxxxxxxxxsssxx+,  ..,,,: :7st!ttts7Cq7
-dfff77xxxxxxxxxx.,!sff7t/;,  :xxsxxxxxxxxxxxxxxxxxssx7!,  ..,,::;: :xi!tttsxf3qs
-&XCC7f7xxxxxxxx7,:!+tXAXCs=:. ,!7xxxxxsssxxxxxxxxxs7t:  .,,::;=//; :ti!tttsxfqd!
-x&Xf777777xxxxxf;,+!!fdhXf!;,   :s7xx7f777777xxxxxs=   .,;=+!ti/=: ;!!!ttts7CXdi
-=x&dff777xxxxxx7t.:!x7sxffs+;.   ,!fC33qdd333CC3f/.   .,:;/!xx/;;..i!!!ttsxCdAq/
-q3dXddddqqdddqqq7  ,,+fCsiii;.    :s73CCddfqffx=.     ,:;;+++i+/;.+!!ttttxfdh&C/
-ddddXXXXXhhXhXXAd..:;,:fxt7ff77t!CdhAXdCdCxhXqf:  ..,.,,,,:=/+:,  !!!!tsxfdh&D7;
-qqddXXXXXdXXhhXhq..,;!+xAA&DD&A&hhXXXCst!xixfddq7ts7tts;,:,,::,. ,!!tttxCqh&&Dx;
-dddXhhXXXXXXXAhhh.  ..;3ADDDDDAhhd3xtx!/;txii!C3dC333Xdff+,.,:;, +xttsxfqXhA&Ds:
-3qddXXXXXhhhhhhh&x  .;xXAADDDD&hhhff!x!/i!xisi73dqqdd3Cqfi, ...  CqCf7fCqXhADD!;
-f3qdddddXXhAAAAAA&;  iXAA&&AhCfC7tsf+/+;it+/7t!7C33Cffftst;     idXXXddqdhA&@Di;
-ffC3qddXXXhhhhAA&&! ;3Xh&AX3s!t!/:!7/;;,;/:+!=+ii!ttsss!ti+;   =XXXXhhhhhAAADDi:
-fCC33ddXXXhhhAAAD&CfdAh&h3s//tsi:,+i;:,,:,:/i;;+!i/i!ss7x!!i. .ChhhAAhAA&AA&&Dt:
-fCC33qXXXhhhhhA&D&hDDAh3s!isdx/si:;::,,,,,,;;:;!x7!i!!s7fs!x+;/dhhhAAAA&&A&DDD7:
-fCC3qdXXXhhhA&&&&AAA&dx/:;tDx ..q7;..,.....,;=t+:/33i/+t77ss7sfAAAAAA&A&DA&D&Dd:
-fCC3qdXXhhhAAA&&DD&hd3t;:;;3diiiRh;,,.... .,:xX;. =D!/,,=!stsqAhAAAAA&&AA&D&&D&;
-fCC3qdXXhhAAA&&DDDDAXq3+:=/:!ff3q!,::.,,  .,./Xq!/3s=+;:;+t!qAAAAAA&&A&&&&&D&DDt
-fCC3qqXhhhAAA&DDDDDAhXqf=,=i/==;,. :,..,    ,::/ts+i!/;;+!sdhhhAAAA&&A&&DD&&D&D3
-fCC3qqdXhAAAA&&&DD&hhhdqf/,:=//;. ..  ;;     ./i!!st;:;+tsCXhhAAAAA&&&&&DDDDDDDh
-ffC3qqdXhAAA&D&&&&hhXXXXdCt;,..., :!C3AAs.    .:::;:;+!sff!xqhAAAAA&&&&&DDDD&DDD
-ffC3qqddXhAA&D&AhXqXXXhA&hd7i:,,.+qDR&A&Ds:: ....,:;!xCdXf/+iChAAAAA&&&DDDDDD&DD
-7fCC3qqdXhh&&&hXddddXXXADDDAxi+;t@DXAhAAdCAq,.::;;tCdXAXdx;:;iqAAAAA&&&DDDDDDD&D
-x7ffC3qdXXh&&hXXdXXhhhhADDDRqx7xDNRhhhAdq&RDA7t+tXDD&hhqdx;;::shAAA&D&DDDDDDDDD&
-s77ffC3dXXhAAhhXXhhhhhhA&DD&DhC3&NNNDqq&@@RRDqsfAD&Ahhhhhx==;:;fhA&D&&DDDDDDDDDD
-ts7fff3qddhAhXdddXhhhhhhh&DDDD&A&DR@DA&DDAADh3XD&&&AAAAAd++/==;!X&&D&&DDDDDDDDDD
-!txx7f33qqXhXd3f3XhXXhhhA&DD&D&DDDDRRDDD&A&DDRDD&&&hhAAAd!=;;;;/d&&&D&DDDDDDDDDD
-i!tsx7fC3qdXqf7fqdddXhhAA&DD&D&A&&DDDDDDDDDR@DD&D&A&&Ahhf+i+==;;3&&&&&&DDDDDDDDD
-ii!!7q3C37f3C7x7CdXXXhhA&DDD&&&&&&DDDDDDRDDRRDD&&AAAAhhd!/==++/;f&&D&&DDDDDDDDDD
-i!sxCqdddCttxxx73dXXhhAA&D&&&AAAA&&DDDDDRRRRDDDD&&AhhXdx+///;=/=f&&&&&&DDDDDDDDD
-+itx7C3ddX7ssxfC33dXhA&&A&&&AAAhAAAA&&DDDDDDDD&&AhhhAX7i/==//==;C&&DD&&&DDDDDDDD
-=/+!t7fC3dd7xxfC3C3dhAAAAAAAAhhAhhhhhAA&&&&&&&AhhhhXfst//====/;/d&AD&&&&&DDDDDDD
-;=/+itx7f3d3xx7C33qdhhhAAAhhhXXXdqdddXhhAAAAAAhXhXCt+++/=//===;!A&&&&&&&&&&DDDD&
+777xx7777xxxxxxxxxx77xxxxxxxxxxxxxxxxxx777777fffffff777xxxxxx777xxxssxxss7xtsx7f
+f77xx7777xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx77777ffffff777xxxxxxxx77xxxxsxssxxstsxff
+f77x77777xxxxxxxxxxsx77x7xxxxxxxxxxxxxxx777777fff77777xxxxxxxxxxxxxxxxsx7stsx7fC
+ff777xxxxxxxxxxxx/,;:;!fxx7xxxxxxxxxxxxxxxx777ff77777xxxxxxxxx7ff77xsxsxxttsx7fC
+fff777xxxxxxxxxxx!:;;:.;x7xxsxxxxxxxxxxxxxxx77777777xxxxsxxs77t/;:/sssx7s!ssx7CC
+fff777xxxxxxxx7xxi:;=;: .i7x7xxxxxxxxxxxxxxxx777777xxxxxss77i,     /xxxstttsx7C3
+Cff77777xxxxxxxx,.;i+;:,. ;x7xxxxxxxxxxxxxxx777777xxxxxxx7+,  .,,, ,f7sttstsxf3C
+ffff77777xxx7xxx.,iss!/;:, .!7xxxxxxxxxxxxxx77xxxx7xxsx7i,  ..,,,: :fsttttss7Cq7
+dCCCf77777xxxx7x.,!sffft/;,  ;x7xxxxxxxxxxx77xxxxxxx77!,  ..,,::;; :7i!tttsxf3qs
+&XCC7f777xxx7xx7,:!+tX&X3s/:. ,!7xx77xxxxx7xxxxxxxx7t:  .,,:;;///; ;ti!tttsxfqd!
+7&Xf7777777777xf;,+!!CdAXCt;,.  :x7xx7f7f7777xxxxxx/   .:;=+!ti+=: =t!!ttts73Xdi
+=x&XCf77777777x7!.;!77x7fCx+;.   ,tfCqqqddqqq333f+.   .,:;/!xx/;;,,!tt!tts7Cd&q+
+dqdXXXdddddddddq7  ,,+CCs!!i;.    :xfq33XdCdCCx/,     ,:;=++ii+/;.+!tttttxCdADC/
+XXXXXXXhhhhhhhh&d..:;,:f7t7CC77t!3XA&hXCX37Ahdf: ...,.,,,,;=/+:,  !!!!txxCdh&D7=
+qddXXhXXXXXhhhXAq..,;!+7A&DRDD&DAAXhX3xs!xi7CXXdfss7ttx;::,,::,. ,t!tts7Cdh&&Dx;
+ddXhhAhXhhhhhAAAh.  ..;3ADDDDD&AAXq7sx!/;t7!!t3qX3qqqhdCf+,.,:;, +xttsxfqXhA&Ds;
+qdXXXXXXhhAAAAAhDx  .;7hA&DRDDDAAAfftxt/i!7!x!fqXddXX3Cdfi, .., .CqCf7f3dhA&DD!;
+C3dddXddXhA&AA&&&D=  ih&&DD&h3C3ftsCi+i;!s++fttf33q3CCfsxs;     !dXXXddqdh&&@Di;
+CC3qddXXhhAAAA&&DDt.;3XAD&hqx!tt/;!f+;;:=/;+!=+i!!ttxxxttii;   /hXXXhhhhhAA&DDi:
+fC33qdXXhhAAA&&&DD3Cd&A&hqx+/tx!:,+i;:,,;::/i;;+ti+!txxfx!!i. .CAhhAAhA&&&A&DRt:
+fC33qdXhhhAAAA&DDDADD&Aqx!ixXx+si:;::,,,,,,;;;;tx7!!t!xffx!x+;/dAAAAAAA&D&&DDR7:
+fC3qqdXhhAAA&DD&&&&&&X7+:;tRx ..qf;,.,.....,;/s+:/3qi/+s77ssfxCAAAA&&&A&D&&D&Dd:
+CC3qddXhhAA&&&DDDDDAX3t=:=;3diiiRh;:,.... .::xX;. =D!/,,=txtsqAAAA&&&&&&&&D&&D&;
+CC3qddXhhAA&&&DDDDD&Xdq+:/+;!ff3qt,::.,,. .,.+Xd!/3x/i;:;ittdAAAAA&&&&&DDDDDDDDt
+CC3qddhhAA&&&DDDDDD&AhdC/:/!+//=,. :,.,,.   ,:;/ts+it/;;i!sXAAAAA&&&&&&DDDDDDDDq
+CC3qddXhAA&&&DDDDRDAhAXdf/,:/++;. ..  ;;     ,/!t!ss;:=itx3hAA&A&&&&&&DDDDDDDDDA
+CC3qqdXXhA&&DDDDDDAAhhhhdCt;,...,.:tCq&As.    .:::;;;+!sCf!xdAAA&&&&&&DDDDDD&DDD
+fC3qqddXhA&&DDDAAhdhhXA&DAd7i:,,.iqDR&A&Dx:: ....,:;!xCXXC/+!ChAA&&&&&DDDDDDD&DD
+fCC3qddXhAA&DDAhXddXhhh&DDD&x!i;tNDXAhhhd3Aq:.:;;;s3XhAhX7;;;iq&&AA&DDDDDDDDDD&D
+7fCC3qqdhhA&&AhXXhhhAAA&DDDRd7f7DNRhXXAqq&@R&7t+tXDD&Ahdd7;;::sh&A&DDDDDDDDDDDD&
+x7ffC3qdXhhA&AAhhhAhAAh&DDDDRA3qDNNND3q&@@@RRdxf&DD&AAAAAx==;:;Ch&DDDDDDDDDDDDDD
+sxfffC3qdXhAAhXXdXAhAAAAADDDDRD&DD@@RA&DD&&DAqhDDDDA&&&&Xi+//=;!hDDDDDDDDDDDDDDD
+tsx7fCqqddXhhXqCqhhhhhAA&&DDDDDDDDR@@RDDD&&RDRRDDDDAAA&&d!=;;=;+XD&DDDDDDDDDDDDD
+!tsxxfCCqqXXqCfCqXXXhAA&&DDDDD&&DDDDDDDDRRR@@DDDDD&&&&hAfi!+==;;qD&DDDDDDDDDDDDD
+iit!fq3337fq3f7f3XXhhhA&DDDDDDD&DDDDRRRRRRR@@RDDD&&&AAhd!//=++/;CDDDDDDDDDDDDDDD
+i!sxCqddXCttx77f3XhhhA&&&DDDD&&&&DDDDDDR@@@@RRDDD&AAAhdx++//==//CDD&&DDDDDDDDDDD
++itx73qddXfsxxfC3qdXh&&&&DD&&&&A&&&&DDDDRRRRDDD&&AAA&hfi/==///==3D&DDDDDDDDDDDDD
+=/i!s7f33dX7x7f3q3qXA&&&&&&&&AA&AAAAAA&&DDDDD&&AAhAXfst+//==//=/XD&DDDDDDDDDDDDD
+=/++!tx7f3dqxxf3qqqXAAA&AAAAAhhhdddXdXhAA&&&AAAXhX3ti+i+=/////=!AD&DDDDDDDDDDDDD
 ```
 
 
