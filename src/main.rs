@@ -1,7 +1,6 @@
+use clap::Parser;
 use image::GenericImageView;
 use std::array;
-pub mod font8x8;
-use clap::Parser;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -22,28 +21,48 @@ struct Args {
     image: String,
 }
 
+// Note: itertools has Either
+// used here to get arround the issue that if-else can not return iterators - they are not the same type.
+enum Either<L, R> {
+    Left(L),
+    Right(R),
+}
+
+impl<L, R, T> Iterator for Either<L, R>
+where
+    L: Iterator<Item = T>,
+    R: Iterator<Item = T>,
+{
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self {
+            Either::Left(iter) => iter.next(),
+            Either::Right(iter) => iter.next(),
+        }
+    }
+}
+
 fn main() {
     let args = Args::parse();
 
     // Sort and dedup symbols
-    let mut symbols: Vec<(u8, char)> = if args.symbols.is_empty() {
-        font8x8::UNICODE_ASCII
-            .filter_map(|u| {
-                let c = char::from_u32(u.into())?;
-                let density = font8x8::unicode2bitmap(u).count_ones() as u8;
-                if density > 0 || c == ' ' {
-                    Some((density, c))
-                } else {
-                    None
-                }
-            })
-            .collect()
-    } else {
-        args.symbols
-            .chars()
-            .map(|c| (font8x8::unicode2bitmap(c as u16).count_ones() as u8, c))
-            .filter(|&(density, c)| density > 0 || c == ' ')
-            .collect()
+    let mut symbols: Vec<(u8, char)> = {
+        let iter = if args.symbols.is_empty() {
+            Either::Left(
+                font8x8::UNICODE_ASCII
+                    .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c))),
+            )
+        } else {
+            Either::Right(args.symbols.chars().map(|c| (c as u16, c)))
+        };
+
+        iter.filter_map(|(u, c)| {
+            let bitmap = font8x8::unicode2bitmap(u)?;
+            let density = bitmap.count_ones() as u8;
+            (density > 0 || c == ' ').then_some((density, c))
+        })
+        .collect()
     };
     symbols.sort_unstable_by_key(|&(brightness, _)| brightness);
     symbols.dedup_by_key(|(brightness, _)| *brightness);

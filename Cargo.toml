@@ -8,5 +8,5 @@ edition = "2024"
 [dependencies]
 clap = { version = "4.5.57", features = ["derive"] }
 image = "0.25.9"
-#clap = { version = "4.3.19", features = ["derive"] }
-#image = "0.24.6"
+font8x8 = { git = "https://github.com/jesper-olsen/font8x8-rs", branch = "master" }
+
