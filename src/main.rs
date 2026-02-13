@@ -21,51 +21,42 @@ struct Args {
     image: String,
 }
 
-// Note: itertools has Either
-// used here to get arround the issue that if-else can not return iterators - they are not the same type.
-enum Either<L, R> {
-    Left(L),
-    Right(R),
-}
-
-impl<L, R, T> Iterator for Either<L, R>
-where
-    L: Iterator<Item = T>,
-    R: Iterator<Item = T>,
-{
-    type Item = T;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        match self {
-            Either::Left(iter) => iter.next(),
-            Either::Right(iter) => iter.next(),
-        }
-    }
-}
-
 fn main() {
     let args = Args::parse();
 
-    // Sort and dedup symbols
-    let mut symbols: Vec<(u8, char)> = {
-        let iter = if args.symbols.is_empty() {
-            Either::Left(
-                font8x8::UNICODE_ASCII
-                    .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c))),
-            )
+    let symbols: Vec<(u8, char)> = {
+        if args.symbols.is_empty() {
+            // Use font brightness to sort and dedup
+            //let mut sym: Vec<_> = font8x8::UNICODE_LATIN
+            let mut sym: Vec<_> = font8x8::UNICODE_ASCII
+                .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c)))
+                .filter_map(|(u, c)| {
+                    let bitmap = font8x8::unicode2bitmap(u)?;
+                    let density = bitmap.count_ones() as u8;
+                    (density > 0 || c == ' ').then_some((density, c))
+                })
+                .collect();
+            sym.sort_unstable_by_key(|&(brightness, _)| brightness);
+            sym.dedup_by_key(|(brightness, _)| *brightness);
+            sym
         } else {
-            Either::Right(args.symbols.chars().map(|c| (c as u16, c)))
-        };
-
-        iter.filter_map(|(u, c)| {
-            let bitmap = font8x8::unicode2bitmap(u)?;
-            let density = bitmap.count_ones() as u8;
-            (density > 0 || c == ' ').then_some((density, c))
-        })
-        .collect()
+            // User-provided: assume already ordered, assign evenly spaced brightness
+            let chars: Vec<char> = args.symbols.chars().collect();
+            let n = chars.len();
+            chars
+                .into_iter()
+                .enumerate()
+                .map(|(i, c)| {
+                    let brightness = if n == 1 {
+                        0u8
+                    } else {
+                        (i * 255 / (n - 1)) as u8
+                    };
+                    (brightness, c)
+                })
+                .collect()
+        }
     };
-    symbols.sort_unstable_by_key(|&(brightness, _)| brightness);
-    symbols.dedup_by_key(|(brightness, _)| *brightness);
 
     let Some(&(density_max, _)) = symbols.last() else {
         panic!("no usable symbols")
