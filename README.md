@@ -69,9 +69,7 @@ i!sxCqddXCttx77f3XhhhA&&&DDDD&&&&DDDDDDR@@@@RRDDD&AAAhdx++//==//CDD&&DDDDDDDDDDD
 ```
 
 
-Scale image to 80 pixels wide, set character aspect ratio to 2, map each pixel to one of the 5 symbols.
-When symbols are explicitly specified, the program assumes that they are already sorted by intensity and that
-intensity varies linearly. 
+Map each pixel to one of 5 symbols:
 
 ```bash
 
@@ -117,3 +115,5 @@ intensity varies linearly.
 ░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▒▒▒▒░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 ```
 
+When symbols are explicitly specified, the program assumes that they are already sorted by intensity and that intensity 
+varies linearly. 
