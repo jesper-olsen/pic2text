@@ -6,7 +6,7 @@ The symbols to use can be specified on the command line. Symbols are ranked by e
 
 ![cat](baimou.jpg)
 
-```
+```text
 cargo run -- -h
 
 Usage: pic2text [OPTIONS] <IMAGE>
@@ -73,7 +73,7 @@ Scale image to 80 pixels wide, set character aspect ratio to 2, map each pixel t
 When symbols are explicitly specified, the program assumes that they are already sorted in intensity order and that
 intensity varies linearly. 
 
-```
+```bash
 cargo run -- --symbols "⠀⠁⠃⠇⠏⠟⠿⣿" --width 80 --aratio 2  baimou.jpg
 
 
