@@ -2,15 +2,23 @@
 
 Convert pictures to ascii art.
 
-The symbols to use can be specified on the command line - there are several option: 
 
-* using `--symbols` to specify the individual symbols to use ordered from dark to bright.
-* using `--ascii` (default) to specify the ascii range - symbols will be automatically sorted by estimating the 'brightness' of each symbol - this is done by looking up the symbol in a small bitmap font and counting bits (see [font8x8-rs](https://github.com/jesper-olsen/font8x8-rs)). 
-* using `--braille` to specify the braille range - as for ascii, symbols will be automatically sorted by intensity (9 levels, including space).
+### How It Works
 
-Works best with a monospace font. Unicode has many interesting characters that can be mixed, but they are not all the same width so
-are not necessarily useful at the same time.
+1. **Symbol Selection**: Choose character set (ASCII, Braille, or custom)
+2. **Density Calculation**: For ASCII/Braille, bitmap font determines "brightness" 
+3. **Brightness Mapping**: Each character maps to a grayscale intensity (0-255)
+4. **Image Processing**: 
+   - Resize image to target width (accounting for character aspect ratio)
+   - Convert each pixel to grayscale
+   - Map to nearest character by brightness
 
+For braille the brightness is easy to calulate - known number of dots in the symbol (0-9).
+
+For the ascii character set, brightness is calculated by looking up the individual characters in a small font ([font8x8-rs](https://github.com/jesper-olsen/font8x8-rs)) and counting bits. This is only approximate because the terminal or the browser used for rendering the result will likely be using a different font.
+
+
+### Usage
 
 ![cat](baimou.jpg)
 
@@ -33,7 +41,9 @@ Options:
   -V, --version            Print version
 ```
 
-Map to ascii range (default). Note that some symbols have the same 'brightness' - only one representative symbol per brightness is used. 
+### Ascii Mode (`--ascii`)
+
+Map to ascii range (default). Note that many symbols have the same 'brightness' - only one representative symbol per brightness is used. 
 ```
 cargo run -- -w 80 baimou.jpg
 
@@ -79,7 +89,12 @@ i!sxCqddXCttx77f3XhhhA&&&DDDD&&&&DDDDDDR@@@@RRDDD&AAAhdx++//==//CDD&&DDDDDDDDDDD
 ```
 
 
-Map each pixel to one of 7 given symbols:
+### Custom Mode 
+
+Map each pixel to one of a given number of symbols. It is assumed that the symbols are already sorted in order of brighness (black to white). The brighness range of a symbol can be expanded by repeating the symbol.
+
+Note that while there are many unicode symbols that are potentially useful, they don't always mix well,
+because the widths may vary.
 
 ```
 cargo run -- --symbols " .:░▒▓█" --width 80 --aratio 2 baimou.jpg
@@ -125,8 +140,16 @@ cargo run -- --symbols " .:░▒▓█" --width 80 --aratio 2 baimou.jpg
 ::::::░░░░▒░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░:::::::::::.:▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 ```
 
-When symbols are explicitly specified, the program assumes that they are already sorted by intensity and that intensity 
-varies linearly - you can repeat a symbol to extend its intensity range. 
+
+
+### Braille Mode (`--braille`)
+
+Uses Braille Unicode characters (U+2800-U+28FF) sorted by dot density. 
+Provides 9 distinct brightness levels (0-8 dots) with monospace alignment.
+
+**Note**: While Braille characters render correctly in terminals, some web browsers 
+may show a visually jagged right edge due to font rendering. This is cosmetic only - 
+the character spacing is correct and the image proportions are preserved.
 
 ```
 cargo run -- --braille baimou.jpg
