@@ -34,6 +34,7 @@ Options:
 | `--symbols` | Custom | Variable | Artistic control, specific aesthetics |
 | `--braille` | 9 | Low | Clean geometric patterns, minimalist look |
 
+
 ### Ascii Mode (`--ascii`)
 
 Map to ascii range (default). Note that many symbols have the same 'brightness' - only one representative symbol per brightness is used. 
@@ -132,7 +133,6 @@ cargo run -- --symbols " .:░▒▓█" --width 80 --aratio 2 baimou.jpg
 :::::░░░░▒▒░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▒▒▒▒▒▒▒▒░░::::::::::▒▒▒▓▒▒▒▒▒▒▒▓▓▓▒▒
 ::::::░░░░▒░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░:::::::::::.:▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 ```
-
 
 
 ### Braille Mode (`--braille`)
