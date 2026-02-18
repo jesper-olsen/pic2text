@@ -8,40 +8,38 @@ struct Args {
     #[arg(short, long, default_value_t = false)]
     ///invert grayscale
     invert: bool,
+
     #[arg(short, long, default_value_t = 2.0)]
     ///aspect ratio (character height to width)
     aratio: f64,
+
     #[arg(short, long, default_value_t = 80)]
     ///max picture width in characters  
     width: u32,
-    #[arg(short, long, default_value_t = String::from(""))]
-    ///each char in string
-    symbols: String,
+
     ///image
     image: String,
+
+    #[arg(short = 's', long, conflicts_with_all = ["ascii", "braille"])]
+    /// Custom character set (ordered from dark to bright)
+    symbols: Option<String>,
+
+    #[arg(long, conflicts_with_all = ["symbols", "braille"])]
+    /// Use ASCII character set (default)
+    ascii: bool,
+
+    #[arg(long, conflicts_with_all = ["symbols", "ascii"])]
+    /// Use Braille character set for high resolution
+    braille: bool,
 }
 
 fn main() {
     let args = Args::parse();
 
     let symbols: Vec<(u8, char)> = {
-        if args.symbols.is_empty() {
-            // Use font brightness to sort and dedup
-            //let mut sym: Vec<_> = font8x8::UNICODE_LATIN
-            let mut sym: Vec<_> = font8x8::UNICODE_ASCII
-                .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c)))
-                .filter_map(|(u, c)| {
-                    let bitmap = font8x8::unicode2bitmap(u)?;
-                    let density = bitmap.count_ones() as u8;
-                    (density > 0 || c == ' ').then_some((density, c))
-                })
-                .collect();
-            sym.sort_unstable_by_key(|&(brightness, _)| brightness);
-            sym.dedup_by_key(|(brightness, _)| *brightness);
-            sym
-        } else {
+        if let Some(custom) = &args.symbols {
             // User-provided: assume already ordered, assign evenly spaced brightness
-            let chars: Vec<char> = args.symbols.chars().collect();
+            let chars: Vec<char> = custom.chars().collect();
             let n = chars.len();
             chars
                 .into_iter()
@@ -55,6 +53,33 @@ fn main() {
                     (brightness, c)
                 })
                 .collect()
+        } else if args.braille {
+            // All 256 Braille patterns (U+2800 to U+28FF)
+            let mut sym: Vec<_> = (0x2800..=0x28FF)
+                .filter_map(|u| {
+                    let c = char::from_u32(u)?;
+                    // Count dots: each Braille char encodes 8 dots in bits 0-7
+                    let pattern = u - 0x2800;
+                    let density = pattern.count_ones() as u8;
+                    Some((density, c))
+                })
+                .collect();
+            sym.sort_unstable_by_key(|&(brightness, _)| brightness);
+            sym.dedup_by_key(|(brightness, _)| *brightness);
+            sym
+        } else {
+            // Default: ASCII using font brightness
+            let mut sym: Vec<_> = font8x8::UNICODE_ASCII
+                .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c)))
+                .filter_map(|(u, c)| {
+                    let bitmap = font8x8::unicode2bitmap(u)?;
+                    let density = bitmap.count_ones() as u8;
+                    (density > 0 || c == ' ').then_some((density, c))
+                })
+                .collect();
+            sym.sort_unstable_by_key(|&(brightness, _)| brightness);
+            sym.dedup_by_key(|(brightness, _)| *brightness);
+            sym
         }
     };
 
