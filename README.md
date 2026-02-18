@@ -3,21 +3,6 @@
 Convert pictures to ascii art.
 
 
-### How It Works
-
-1. **Symbol Selection**: Choose character set (ASCII, Braille, or custom)
-2. **Density Calculation**: For ASCII/Braille, bitmap font determines "brightness" 
-3. **Brightness Mapping**: Each character maps to a grayscale intensity (0-255)
-4. **Image Processing**: 
-   - Resize image to target width (accounting for character aspect ratio)
-   - Convert each pixel to grayscale
-   - Map to nearest character by brightness
-
-For braille the brightness is easy to calulate - known number of dots in the symbol (0-9).
-
-For the ascii character set, brightness is calculated by looking up the individual characters in a small font ([font8x8-rs](https://github.com/jesper-olsen/font8x8-rs)) and counting bits. This is only approximate because the terminal or the browser used for rendering the result will likely be using a different font.
-
-
 ### Usage
 
 ![cat](baimou.jpg)
@@ -40,6 +25,14 @@ Options:
   -h, --help               Print help
   -V, --version            Print version
 ```
+
+### Comparison of Modes
+
+| Mode | Symbols | Tonal Range | Use Case |
+|------|---------|-------------|----------|
+| `--ascii` (default) | ~38 | High | Classic ASCII art, best tonal gradation |
+| `--symbols` | Custom | Variable | Artistic control, specific aesthetics |
+| `--braille` | 9 | Low | Clean geometric patterns, minimalist look |
 
 ### Ascii Mode (`--ascii`)
 
@@ -194,3 +187,19 @@ cargo run -- --braille baimou.jpg
 ⢐⢐⡒⡒⡒⢎⢎⣲⣲⣲⣲⢎⢎⢎⢎⣲⣲⣲⣲⣲⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣲⣛⣲⢎⢎⡒⡒⢐⢐⢐⢐⢐⢐⢐⢐⣲⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛
 ⢐⢐⡒⡒⡒⡒⢎⢎⢎⣲⣲⣲⢎⢎⢎⣲⣲⣲⣲⣲⣛⣛⣛⣛⣛⣛⣛⣛⣛⣲⣲⣲⣲⣲⣲⣲⣲⣲⣛⣛⣛⣛⣛⣛⣛⣛⣛⣲⣲⣲⣲⡒⡒⡒⡒⡒⢐⢐⢐⢐⢐⢐⢐⡒⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛⣛
 ```
+
+### How It Works
+
+1. **Symbol Selection**: Choose character set (ASCII, Braille, or custom)
+2. **Density Calculation**: For ASCII/Braille, bitmap font determines "brightness" 
+3. **Brightness Mapping**: Each character maps to a grayscale intensity (0-255)
+4. **Image Processing**: 
+   - Resize image to target width (accounting for character aspect ratio)
+   - Convert each pixel to grayscale
+   - Map to nearest character by brightness
+
+For braille the brightness is easy to calulate - known number of dots in the symbol (0-9).
+
+For the ascii character set, brightness is calculated by looking up the individual characters in a small font ([font8x8-rs](https://github.com/jesper-olsen/font8x8-rs)) and counting bits. This is only approximate because the terminal or the browser used for rendering the result will likely be using a different font.
+
+
