@@ -53,30 +53,26 @@ fn main() {
                     (brightness, c)
                 })
                 .collect()
-        } else if args.braille {
-            // All 256 Braille patterns (U+2800 to U+28FF)
-            let mut sym: Vec<_> = (0x2800..=0x28FF)
-                .filter_map(|u| {
-                    let c = char::from_u32(u)?;
-                    // Count dots: each Braille char encodes 8 dots in bits 0-7
-                    let pattern = u - 0x2800;
-                    let density = pattern.count_ones() as u8;
-                    Some((density, c))
-                })
-                .collect();
-            sym.sort_unstable_by_key(|&(brightness, _)| brightness);
-            sym.dedup_by_key(|(brightness, _)| *brightness);
-            sym
         } else {
-            // Default: ASCII using font brightness
-            let mut sym: Vec<_> = font8x8::UNICODE_ASCII
-                .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c)))
-                .filter_map(|(u, c)| {
-                    let bitmap = font8x8::unicode2bitmap(u)?;
-                    let density = bitmap.count_ones() as u8;
-                    (density > 0 || c == ' ').then_some((density, c))
-                })
-                .collect();
+            let mut sym = if args.braille {
+                (0x2800..=0x28FF)
+                    .filter_map(|u| {
+                        let c = char::from_u32(u)?;
+                        let pattern = u - 0x2800;
+                        let density = pattern.count_ones() as u8;
+                        Some((density, c))
+                    })
+                    .collect::<Vec<_>>()
+            } else {
+                font8x8::UNICODE_ASCII
+                    .filter_map(|u: u16| char::from_u32(u.into()).map(|c| (u, c)))
+                    .filter_map(|(u, c)| {
+                        let bitmap = font8x8::unicode2bitmap(u)?;
+                        let density = bitmap.count_ones() as u8;
+                        (density > 0 || c == ' ').then_some((density, c))
+                    })
+                    .collect::<Vec<_>>()
+            };
             sym.sort_unstable_by_key(|&(brightness, _)| brightness);
             sym.dedup_by_key(|(brightness, _)| *brightness);
             sym
